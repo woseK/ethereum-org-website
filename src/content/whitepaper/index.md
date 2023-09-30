@@ -86,7 +86,7 @@ The algorithm for checking if a block is valid, expressed in this paradigm, is a
 2. Check that the timestamp of the block is greater than that of the previous block<sup>[fn2](#notes)</sup> and less than 2 hours into the future
 3. Check that the proof-of-work on the block is valid.
 4. Let `S[0]` be the state at the end of the previous block.
-5. Suppose `TX` is the block's transaction list with `n` transactions. For all `i` in `0...n-1`, set `S[i+1] = APPLY(S[i],TX[i])` If any application returns an error, exit and return false.
+5. Suppose `TX` is the block's transaction list with `n` transactions. For all `i` in `0...n-1`, set `S[i+1] = APPLY(S[i],TX[i])`. If any application returns an error, exit and return false.
 6. Return true, and register `S[n]` as the state at the end of this block.
 
 Essentially, each transaction in the block must provide a valid state transition from what was the canonical state before the transaction was executed to some new state. Note that the state is not encoded in the block in any way; it is purely an abstraction to be remembered by the validating node and can only be (securely) computed for any block by starting from the genesis state and sequentially applying every transaction in every block. Additionally, note that the order in which the miner includes transactions into the block matters; if there are two transactions A and B in a block such that B spends a UTXO created by A, then the block will be valid if A comes before B but not otherwise.
